@@ -22,16 +22,27 @@
 				render: function() {
 					return (
 					<div>
-						Testing if this is working.
+						<h1>List of Homework</h1>
+						<HomeworkList />
 					</div>
 					);
 				}
 			});
 			
-		React.renderComponent(
-			<HomeworkInfo />,
-			document.getElementById("listArea")
-		);
+			var HomeworkList = React.createClass({
+				render: function() {
+					return(
+						<div className="homeworkList">
+							This will be a list of current homework.
+						</div>
+					);
+				}
+			});
+			
+			React.renderComponent(
+				<HomeworkInfo />,
+				document.getElementById("listArea")
+			);
 		</script>
     </body>
     
