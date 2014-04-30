@@ -16,9 +16,7 @@ function pageLoaded() {
         xmlHttp.open("GET", "serverCheck.php", true);
 		xmlHttp.onreadystatechange = handleServerResponse;
 		xmlHttp.send(null);
-    } else {
-		setTimeout(pageLoaded(), 500);
-	}
+    }
 }
 
 function handleServerResponse() {
@@ -36,7 +34,6 @@ function handleServerResponse() {
 				"<td>"+data[obj].description+"</td>";
 				resultArea.innerHTML += "</tr>";
 			}
-			setTimeout(pageLoaded(), 500);
 		}
 	}
 }

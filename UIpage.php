@@ -15,6 +15,24 @@
         <hr>
 		<table id="replyArea">
 		</table>
+		<div id="listArea"></div>
+		<script type="text/jsx">
+			/*** @jsx React.DOM*/
+			var HomeworkInfo = React.createClass({
+				render: function() {
+					return (
+					<div>
+						Testing if this is working.
+					</div>
+					);
+				}
+			});
+			
+		React.renderComponent(
+			<HomeworkInfo />,
+			document.getElementById("listArea")
+		);
+		</script>
     </body>
     
 </html>
