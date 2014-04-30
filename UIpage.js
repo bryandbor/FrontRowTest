@@ -1,25 +1,43 @@
 function createXMLHttpRequest() {
     var xmlHttp;
     if (window.ActiveXObject) {
-        try {
         xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-        } catch (e) {
-            xmlHttp = false;
-        }
     } else {
-        try {
-            xmlHttp = new XMLHttpRequest();
-        } catch (e) {
-            xmlHttp = false;
-        }
+        xmlHttp = new XMLHttpRequest();
     }
-    
-    if (!xmlHttp) {
-        alert("can't create AJAX object");
-    } else {
-        return xmlHttp;
-    }
+    return xmlHttp;
 }
 
 var xmlHttp = createXMLHttpRequest();
+
+function pageLoaded() {
+    //document.getElementById('replyArea').innerHTML = 'Just another test for connections';
+    if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
+        xmlHttp.open("GET", "serverCheck.php", true);
+		xmlHttp.onreadystatechange = handleServerResponse;
+		xmlHttp.send(null);
+    } else {
+		setTimeout(pageLoaded(), 500);
+	}
+}
+
+function handleServerResponse() {
+	if (xmlHttp.readyState == 4) {
+		if (xmlHttp.status == 200) {
+			var data = JSON.parse(xmlHttp.responseText);
+			var resultArea = document.getElementById('replyArea');
+			resultArea.innerHTML = "";
+			for (var obj in data) {
+				resultArea.innerHTML += "<tr>";
+				if (data[obj].done == false) {
+					resultArea.innerHTML += "<td><input type='checkbox'></td>";
+				} 
+				resultArea.innerHTML += "<td>"+data[obj].name+"</td>"+
+				"<td>"+data[obj].description+"</td>";
+				resultArea.innerHTML += "</tr>";
+			}
+			setTimeout(pageLoaded(), 500);
+		}
+	}
+}
 
