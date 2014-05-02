@@ -50,12 +50,12 @@ var xmlHttp = createXMLHttpRequest();
 
 var answers = React.createClass({
     render: function() {
-        var thisData = this.props.data.map(function (a){
+        var thisData = this.props.initialData.map(function (a){
             return (<answer aText={a.aText}/> );
         });
         return (
             <div>
-            {thisData}
+                {thisData}
             </div>
         );
     }
@@ -154,13 +154,29 @@ var questionInputArea = React.createClass({
         );
     }
 });
+        
+var qAndA = React.createClass({
+    getInitialState: function() {
+        return{
+            allQs:[],
+            allAs:[]
+        }
+    },
+    render: function() {
+        return(
+            <div>
+                <questionInputArea 
+                    initialData={this.state.allQs} 
+                />
+                <answers 
+                    initialData={this.state.allAs} 
+                />
+            </div>
+        );
+    }
+});
 
 React.renderComponent(
-    <questionInputArea initialData={otherData}/>,
+    <qAndA />,
     document.getElementById('questionArea')
 );
-        
-/*React.renderComponent(
-    <answers data={q1Answers} />,
-    document.getElementById('answerArea')
-);*/
