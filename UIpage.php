@@ -13,7 +13,6 @@
     <body onload="pageLoaded();">
         <h1>Fequently Asked Questions</h1>
         <hr>
-        <textarea placeholder="To create a new question type here."></textarea>
-        <div id="replyArea"></div>
+        <div id="questionArea"></div>
     </body>
 </html>

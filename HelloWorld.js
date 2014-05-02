@@ -10,17 +10,41 @@ function createXMLHttpRequest() {
     return xmlHttp;
 }
 
-var xmlHttp = createXMLHttpRequest();
+var otherData = [
+    {"id":"thing1", "qText":"This will be a question."},
+    {"id":"thing2", "qText":"This will be another question."}
+];
+
+
 var resultData;
+var unparsed;
+
+function pageLoaded() {
+    if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
+        xmlHttp.open('POST', 'serverAccess.php', true);
+        xmlHttp.onreadystatechange = handleServerResponse;
+        xmlHttp.send(null);
+    }
+}
+
+function handleServerResponse() {
+    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        unparsed = xmlHttp.responseText;
+        otherData = unparsed;
+        resultData = JSON.parse(xmlHttp.responseText);
+    }
+}
+
+var xmlHttp = createXMLHttpRequest();
 
 var questions = React.createClass({
-    render: function(){
-        var allQuestions = this.props.data.map(function(question){
-            return <questionText qText={question.qText} />
+    render: function () {
+        var thisData = this.props.data.map(function (q) {
+            return <questionText qText={q.qText} />;
         });
         return (
             <div>
-                {allQuestions}
+                {thisData}
             </div>
         );
     }
@@ -36,24 +60,53 @@ var questionText = React.createClass({
     }
 });
 
-function pageLoaded() {
-    if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
-        xmlHttp.open("GET","serverAccess.php",true);
-        xmlHttp.onreadystatechange = handleServerResponse;
-        xmlHttp.send(null);
+var questionInputButton = React.createClass({
+    render: function() {
+        return(
+            <div>
+                <button type="button">Ask Question</button>
+            </div>
+        );
     }
-}
+});
 
-function handleServerResponse() {
-    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-        resultData = JSON.parse(xmlHttp.responseText);
-        document.getElementById('replyArea').innerHTML = resultData['q0'].qText;
+var questionTextArea = React.createClass({
+    handleKeyUp: function(e) {
+        alert('User pressed: '+e);
+    },
+    render: function() {
+        return(
+            <div>
+                <textarea 
+                    placeholder="Enter a new question here" 
+                    onkeyup={this.handleKeyUp}>
+                    {this.props.currentQ}
+                </textarea>
+            </div>
+        );
     }
-}
+});
 
-alert('Hello');
+var questionInputArea = React.createClass({
+    getInitialState: function() {
+        return {
+            currentQ:''
+        };
+    },
+    render: function() {
+        return(
+            <div>
+                <questions data={otherData} />
+                <questionTextArea 
+                    currentQ={''}
+                />
+                <questionInputButton />
+            </div>
+        );
+    }
+});
 
 React.renderComponent(
-    <questionText qText="testing" />,
-    document.getElementById('replyArea')
+    <questionInputArea />,
+    document.getElementById('questionArea')
 );
