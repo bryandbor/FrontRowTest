@@ -14,6 +14,5 @@
         <h1>Fequently Asked Questions</h1>
         <hr>
         <div id="questionArea"></div>
-        <div id="answerArea"></div>
     </body>
 </html>
