@@ -12,7 +12,18 @@ function createXMLHttpRequest() {
 
 var otherData = [
     {"id":"thing1", "qText":"This will be a question."},
-    {"id":"thing2", "qText":"This will be another question."}
+    {"id":"thing2", "qText":"This will be another question."},
+    {"id":"thing3", "qText":"This will be the third thing."}
+];
+
+var q1Answers = [
+    {"id":"answer1", "aText":"This is the first answer to question 1."},
+    {"id":"answer2", "aText":"This is the second answer to question 1."}
+];
+
+var q2Answers = [
+    {"id":"answer1", "aText":"This is the first answer to question 2."},
+    {"id":"answer2", "aText":"This is the second answer to question 2."}
 ];
 
 
@@ -37,10 +48,38 @@ function handleServerResponse() {
 
 var xmlHttp = createXMLHttpRequest();
 
+var answers = React.createClass({
+    render: function() {
+        var thisData = this.props.data.map(function (a){
+            return (<answer aText={a.aText}/> );
+        });
+        return (
+            <div>
+            {thisData}
+            </div>
+        );
+    }
+});
+
+var answer = React.createClass({
+    render: function(){
+        return(
+            <div class="answers">
+                {this.props.aText}
+            </div>
+        );
+    }
+});
+
 var questions = React.createClass({
+    getInitialState: function() {
+        return {
+            qList : this.props.data
+        };
+    },
     render: function () {
-        var thisData = this.props.data.map(function (q) {
-            return <questionText qText={q.qText} />;
+        var thisData = this.state.qList.map(function (q) {
+            return (<questionText qText={q.qText} />);
         });
         return (
             <div>
@@ -51,9 +90,13 @@ var questions = React.createClass({
 });
 
 var questionText = React.createClass({
+    onclick: function(e) {
+        alert(this+' was pressed');
+    },
     render: function() {
         return(
-            <div>
+            <div
+                onClick={this.onclick}>
                 {this.props.qText}
             </div>
         );
@@ -61,10 +104,16 @@ var questionText = React.createClass({
 });
 
 var questionInputButton = React.createClass({
+    getInitialState: function() {
+        return {};
+    },
+    onClickHandler: function(e) {
+        alert('New question button was pressed.');
+    },
     render: function() {
         return(
-            <div>
-                <button type="button">Ask Question</button>
+            <div onclick={this.onClickHandler}>
+                <button type="button" onClick={this.onClickHandler}>Ask Question</button>
             </div>
         );
     }
@@ -79,7 +128,7 @@ var questionTextArea = React.createClass({
             <div>
                 <textarea 
                     placeholder="Enter a new question here" 
-                    onkeyup={this.handleKeyUp}>
+                    onKeyUp={this.handleKeyUp}>
                     {this.props.currentQ}
                 </textarea>
             </div>
@@ -96,7 +145,7 @@ var questionInputArea = React.createClass({
     render: function() {
         return(
             <div>
-                <questions data={otherData} />
+                <questions data={this.props.initialData} />
                 <questionTextArea 
                     currentQ={''}
                 />
@@ -107,6 +156,11 @@ var questionInputArea = React.createClass({
 });
 
 React.renderComponent(
-    <questionInputArea />,
+    <questionInputArea initialData={otherData}/>,
     document.getElementById('questionArea')
 );
+        
+/*React.renderComponent(
+    <answers data={q1Answers} />,
+    document.getElementById('answerArea')
+);*/
