@@ -161,8 +161,22 @@ var questionInputArea = React.createClass({
 var qAndA = React.createClass({
     getInitialState: function() {
         return{
-            allQs:this.props.qStart,
-            allAs:this.props.q1a
+            allQs:[],
+            allAs:[]
+        }
+    },
+    componentDidMount: function(){
+        if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
+            xmlHttp.open("POST", this.props.qLink, true);
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                    resultData = JSON.parse(xmlHttp.responseText);
+                    this.setState({
+                        allQs: resultData
+                    });
+                }
+            }.bind(this);
+            xmlHttp.send(null);
         }
     },
     updateInfo:function(){
@@ -189,6 +203,6 @@ var qAndA = React.createClass({
 });
 
 React.renderComponent(
-    <qAndA q1a={q1Answers} q2a={q2Answers} qStart={otherData} />,
+    <qAndA qLink={serverAccess.php} />,
     document.getElementById('questionArea')
 );
