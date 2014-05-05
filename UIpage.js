@@ -11,6 +11,7 @@ function createXMLHttpRequest() {
 var xmlHttp = createXMLHttpRequest();
 
 function pageLoaded() {
+<<<<<<< HEAD
     //document.getElementById('replyArea').innerHTML = 'Just another test for connections';
     if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
         xmlHttp.open("GET", "serverCheck.php", true);
@@ -38,3 +39,14 @@ function handleServerResponse() {
 	}
 }
 
+=======
+    if (xmlHttp.readystate == 0 || xmlHttp.readyState == 4) {
+        xmlHttp.open("POST", "serverAccess", true);
+        xmlHttp.onreadystatechange = handleServerResponse;
+        if (Document.getElementById()) {
+            
+        }
+        xmlHttp.send(variables);
+    }
+}
+>>>>>>> 30701c4d7787e733140b87e812bc921acf6b5335

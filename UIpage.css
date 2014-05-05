@@ -1,4 +1,5 @@
 #replyArea {
+<<<<<<< HEAD
     background-color: #888;
 	border:1px solid black;
 	width:300px;
@@ -6,4 +7,11 @@
 
 h1 {
     color: #8F3;
+=======
+    background-color: #2F3;
+}
+
+.answers {
+    background-color: #44F;   
+>>>>>>> 30701c4d7787e733140b87e812bc921acf6b5335
 }
