@@ -4,10 +4,33 @@ mysql_select_db('FrontRowTest', $connection) or die(mysql_error());
 if (isset($_POST['newQuestion'])) {
     $qText = $_POST['newQuestion'];
     $query = "INSERT INTO FAQ (quest_text) VALUES ('"+$qText+"')";
-    echo $query.'<br>';
     if (! $result = mysql_query($query, $connection)) {
         die('There was an error instering the new question.');
+    } else {
+        echo 'Question successfully inserted';
     }
+} else if (isset($_POST['answersForQuestion'])) {
+    $answersForQuestion = $_POST['answersForQuestion'];
+    $query = "SELECT * FROM Answers WHERE quest_num = (SELECT quest_num FROM FAQ WHERE quest_text = '".$answersForQuestion."')";
+    if(! $result = mysql_query($query, $connection)) {
+        die('There was an error retrieving answers for that question');
+    } else {
+        header('Content-Type: application/json');
+        $jsonAnswers = '[ ';
+        $aCounter = 0;
+        if (empty($result)) {
+            $jsonAnswers = $jsonAnswers.'{ "id":"a'.$aCounter++.'", "aText":"There are no answers for this question currently."}';
+        } else {
+            while ($row = mysql_fetch_array($result)) {
+                if ($aCounter != 0) {
+                    $jsonAnswers = $jsonAnswers.' , ';
+                }
+                $jsonAnswers = $jsonAnswers.'{ "id":"a'.$aCounter++.'", "aText":"'.$row['answer_text'].'"}';
+            }
+        }
+        $jsonAnswers = $jsonAnswers.' ]';
+        echo $jsonAnswers;
+    }    
 } else {
     $query = 'SELECT * FROM FAQ';
     if (!$result = mysql_query($query, $connection)) {
