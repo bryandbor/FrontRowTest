@@ -78,13 +78,8 @@ var answer = React.createClass({
 });
 
 var questions = React.createClass({
-    getInitialState: function() {
-        return {
-            qList : this.props.data
-        };
-    },
     render: function () {
-        var thisData = this.state.qList.map(function (q) {
+        var thisData = this.props.data.map(function (q) {
             return (<questionText qText={q.qText} />);
         });
         return (
@@ -121,16 +116,12 @@ var questionInputButton = React.createClass({
 });
 
 var questionTextArea = React.createClass({
-    handleKeyUp: function(e) {
-        //alert("New question is now: "+this.refs.newQuest.getDOMNode().value);
-    },
     render: function() {
         return(
             <div>
                 <textarea 
                     placeholder="Enter a new question here" 
-                    ref="newQuest"
-                    onChange={this.handleKeyUp}>
+                    ref="newQuest">
                     {this.props.currentQ}
                 </textarea>
             </div>
@@ -139,11 +130,6 @@ var questionTextArea = React.createClass({
 });
 
 var questionInputArea = React.createClass({
-    getInitialState: function() {
-        return {
-            currentQ:''
-        };
-    },
     clickHandler: function() {
         var q = this.refs.newQuest.getDOMNode().value;
         alert('New question should be: '+q);
@@ -164,8 +150,8 @@ var questionInputArea = React.createClass({
 var qAndA = React.createClass({
     getInitialState: function() {
         return{
-            allQs:[{"id":"q2", "qText":"Just a test question"}],
-            allAs:[]
+            allQs:[{"id":"q2", "qText":"The questions are loading..."}],
+            allAs:[{"id":"a1", "aText":"Select a question to view its answers."}]
         }
     },
     loadQuestions: function() {
@@ -190,6 +176,18 @@ var qAndA = React.createClass({
     },
     componentDidMount: function(){
         this.loadQuestions();
+    },
+    addQuestion: function() {
+        var nextID = this.state.allQs.last.id++;
+        if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
+            xmlHttp.open("POST", "ideasbyb.com/FrontRowTest/serverAccess.php", true);
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                    alert(xmlHttp.responseText);
+                }
+            };
+            xmlHttp.send("newQuestion="+this.refs.newQuest.getDOMNode().value);
+        }
     },
     updateInfo:function(){
         if (this.state.allAs == this.props.q1a) {

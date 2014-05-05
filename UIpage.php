@@ -18,6 +18,8 @@
         <h1>Fequently Asked Questions</h1>
         <hr>
         <div id="questionArea"></div>
+        <hr>
+        <div id="testArea"></div>
     </body>
     
 </html>
