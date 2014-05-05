@@ -79,13 +79,21 @@ var answer = React.createClass({
 });
 
 var questions = React.createClass({
+    handleQuestionSelect: function(key) {
+        alert('This is working...');
+    },
     render: function () {
-        var thisData = this.props.data.map(function (q) {
-            return (<questionText qText={q.qText} />);
-        });
+        var qCounter = 0;
+        /*var thisData = this.props.data.map(function (q) {
+            return (<questionText qText={q.qText} key={qCounter++} OnClick={this.handleQuestionSelect} />);
+        });*/
         return (
             <div>
-                {thisData}
+            {this.props.data.map(function(question, i) {
+                return(
+                    <div onClick={this.handleQuestionSelect} key={qCounter++}>{question.qText}</div>
+                );
+            }, this)}
             </div>
         );
     }
@@ -93,12 +101,12 @@ var questions = React.createClass({
 
 var questionText = React.createClass({
     onclick: function(e) {
-        alert('A question was pressed');
+        alert('Question '+this.props.key+' was pressed');
+        this.props.handleQuestionSelect(this.props.key);
     },
     render: function() {
         return(
-            <div
-                onClick={this.onclick}>
+            <div onClick={this.onclick}>
                 {this.props.qText}
             </div>
         );
@@ -179,8 +187,10 @@ var qAndA = React.createClass({
         this.loadQuestions();
     },
     addQuestion: function() {
+        alert('Hello');
         var nextID = this.state.allQs.last.id++;
-        if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
+        alert('hello');
+        /*if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
             xmlHttp.open("POST", "ideasbyb.com/FrontRowTest/serverAccess.php", true);
             xmlHttp.onreadystatechange = function() {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
@@ -188,14 +198,10 @@ var qAndA = React.createClass({
                 }
             };
             xmlHttp.send("newQuestion="+this.refs.newQuest.getDOMNode().value);
-        }
+        }*/
     },
     updateInfo:function(){
-        if (this.state.allAs == this.props.q1a) {
-            this.setState({allAs:this.props.q2a});
-        } else {
-            this.setState({allAs:this.props.q1a});   
-        }
+        
     },
     handleClick: function(e) {
         alert('answers are being clicked');
@@ -206,7 +212,7 @@ var qAndA = React.createClass({
                 <questionInputArea 
                     initialData={this.state.allQs}
                 />
-                <button onClick={this.updateInfo}>Update Info</button>
+                <button onClick={this.addQuestion}>Update Info</button>
                 <answers 
                     initialData={this.state.allAs}
                 />
@@ -214,8 +220,8 @@ var qAndA = React.createClass({
         );
     }
 });
-
+        
 React.renderComponent(
-    <qAndA q1a = {q1Answers} q2a={q2Answers}/>,
+    <qAndA />,
     document.getElementById('questionArea')
 );
