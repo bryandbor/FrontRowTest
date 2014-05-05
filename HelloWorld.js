@@ -30,7 +30,7 @@ var q2Answers = [
 var resultData;
 var unparsed;
 
-function pageLoaded() {
+/*function pageLoaded() {
     if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
         xmlHttp.open('POST', 'serverAccess.php', true);
         xmlHttp.onreadystatechange = handleServerResponse;
@@ -44,7 +44,7 @@ function handleServerResponse() {
         otherData = unparsed;
         resultData = JSON.parse(xmlHttp.responseText);
     }
-}
+}*/
 
 var xmlHttp = createXMLHttpRequest();
 
@@ -167,13 +167,19 @@ var qAndA = React.createClass({
     },
     componentDidMount: function(){
         if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
-            xmlHttp.open("POST", this.props.qLink, true);
+            xmlHttp.open("POST", "serverAccess.php", true);
             xmlHttp.onreadystatechange = function() {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                     resultData = JSON.parse(xmlHttp.responseText);
+                    for (var obj in resultData) {
+                        alert(resultData[obj].qText);
+                    }
                     this.setState({
                         allQs: resultData
                     });
+                    for (var obj in this.state.allQs) {
+                        alert(resultData[obj].qText);
+                    }
                 }
             }.bind(this);
             xmlHttp.send(null);
@@ -190,12 +196,10 @@ var qAndA = React.createClass({
             <div>
                 <questionInputArea 
                     initialData={this.state.allQs}
-                    onClick={this.handleClick}
                 />
                 <button onClick={this.updateInfo}>Update Info</button>
                 <answers 
-                    initialData={this.state.allAs} 
-                    onClick={this.handleClick}
+                    initialData={this.state.allAs}
                 />
             </div>
         );
@@ -203,6 +207,6 @@ var qAndA = React.createClass({
 });
 
 React.renderComponent(
-    <qAndA qLink={serverAccess.php} />,
+    <qAndA q2a={q2Answers}/>,
     document.getElementById('questionArea')
 );

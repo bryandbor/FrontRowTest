@@ -3,6 +3,7 @@ $connection = mysql_connect('127.0.0.1','root','@Greellow8') or die(mysql_error(
 mysql_select_db('FrontRowTest', $connection) or die(mysql_error());
 if (isset($_POST['newQuestion'])) {
     $qText = $_POST['newQuestion'];
+    $query = "INSERT INTO FAQ (quest_text) VALUES ('"+$qText+"')";
     echo $query.'<br>';
     if (! $result = mysql_query($query, $connection)) {
         die('There was an error instering the new question.');
