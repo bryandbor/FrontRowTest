@@ -54,7 +54,7 @@ var answers = React.createClass({
     },
     render: function() {
         var aCounter = 0;
-        var thisData = this.props.initialData.map(function (a){
+        var thisData = this.props.data.map(function (a){
             return (<answer onClick={this.clickHandler} aText={a.aText} key={aCounter++}/> );
         });
         return (
@@ -80,77 +80,18 @@ var answer = React.createClass({
 
 var questions = React.createClass({
     handleQuestionSelect: function(key) {
-        alert('This is working...');
+        alert('Question '+ key +' was selected.');
+        this.props.onSelectQ(key);
     },
     render: function () {
         var qCounter = 0;
-        /*var thisData = this.props.data.map(function (q) {
-            return (<questionText qText={q.qText} key={qCounter++} OnClick={this.handleQuestionSelect} />);
-        });*/
         return (
             <div>
             {this.props.data.map(function(question, i) {
                 return(
-                    <div onClick={this.handleQuestionSelect} key={qCounter++}>{question.qText}</div>
+                    <div onClick={this.handleQuestionSelect.bind(this, i)} key={qCounter++}>{question.qText}</div>
                 );
             }, this)}
-            </div>
-        );
-    }
-});
-
-var questionText = React.createClass({
-    onclick: function(e) {
-        alert('Question '+this.props.key+' was pressed');
-        this.props.handleQuestionSelect(this.props.key);
-    },
-    render: function() {
-        return(
-            <div onClick={this.onclick}>
-                {this.props.qText}
-            </div>
-        );
-    }
-});
-
-var questionInputButton = React.createClass({
-    render: function() {
-        var onClickHandler = this.props.onClick;
-        return(
-            <div onClick={this.onClickHandler}>
-                <button type="button" onClick={onClickHandler}>Ask Question</button>
-            </div>
-        );
-    }
-});
-
-var questionTextArea = React.createClass({
-    render: function() {
-        return(
-            <div>
-                <textarea 
-                    placeholder="Enter a new question here" 
-                    ref="newQuest">
-                    {this.props.currentQ}
-                </textarea>
-            </div>
-        );
-    }
-});
-
-var questionInputArea = React.createClass({
-    clickHandler: function() {
-        var q = this.refs.newQuest.getDOMNode().value;
-        alert('New question should be: '+q);
-    },
-    render: function() {
-        return(
-            <div>
-                <questions data={this.props.initialData} />
-                <questionTextArea 
-                    currentQ={''}
-                />
-                <questionInputButton onClick={this.clickHandler}/>
             </div>
         );
     }
@@ -188,8 +129,6 @@ var qAndA = React.createClass({
     },
     addQuestion: function() {
         alert('Hello');
-        var nextID = this.state.allQs.last.id++;
-        alert('hello');
         /*if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
             xmlHttp.open("POST", "ideasbyb.com/FrontRowTest/serverAccess.php", true);
             xmlHttp.onreadystatechange = function() {
@@ -203,19 +142,13 @@ var qAndA = React.createClass({
     updateInfo:function(){
         
     },
-    handleClick: function(e) {
-        alert('answers are being clicked');
-    },
     render: function() {
         return(
             <div>
-                <questionInputArea 
-                    initialData={this.state.allQs}
-                />
-                <button onClick={this.addQuestion}>Update Info</button>
-                <answers 
-                    initialData={this.state.allAs}
-                />
+                <questions data={this.state.allQs} />
+                <textarea placeholder="Enter a new question here..." ref="neqQuest"></textarea>
+                <button onClick={this.addQuestion}>Add Question</button>
+                <answers data={this.state.allAs} />
             </div>
         );
     }
