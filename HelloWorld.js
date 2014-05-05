@@ -49,12 +49,13 @@ function handleServerResponse() {
 var xmlHttp = createXMLHttpRequest();
 
 var answers = React.createClass({
-    clickHandler:function() {
-        alert('An answer was selected.');
+    clickHandler:function(a) {
+        alert('An answer was selected. '+a);
     },
     render: function() {
+        var aCounter = 0;
         var thisData = this.props.initialData.map(function (a){
-            return (<answer onClick={this.clickHandler} aText={a.aText}/> );
+            return (<answer onClick={this.clickHandler} aText={a.aText} key={aCounter++}/> );
         });
         return (
             <div>
@@ -66,7 +67,7 @@ var answers = React.createClass({
 
 var answer = React.createClass({
     clickHandler: function() {
-        this.props.onClick();
+        this.props.onClick(this.props.key);
     },
     render: function(){
         return(
