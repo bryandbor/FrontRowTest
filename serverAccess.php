@@ -1,5 +1,5 @@
 <?php
-$connection = mysql_connect('127.0.0.1','root','@Greellow8') or die(mysql_error());
+$connection = mysql_connect("192.186.227.166", "ideas", "@Greellow8") or die(mysql_error());
 mysql_select_db('FrontRowTest', $connection) or die(mysql_error());
 if (isset($_POST['newQuestion'])) {
     $qText = $_POST['newQuestion'];

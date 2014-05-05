@@ -171,8 +171,6 @@ var qAndA = React.createClass({
     loadQuestions: function() {
         if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
             xmlHttp.open("POST", "serverAccess.php", true);
-            
-            xmlHttp.send(null);
             xmlHttp.onreadystatechange = function(allQs) {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                     resultData = JSON.parse(xmlHttp.responseText);
@@ -184,6 +182,7 @@ var qAndA = React.createClass({
                     alert('Error retrieving the questions.');
                 }
             }.bind(this);
+            xmlHttp.send(null);
             for (var obj in this.state.allQs) {
                 alert('allQs outside: '+resultData[obj].qText);
             }
