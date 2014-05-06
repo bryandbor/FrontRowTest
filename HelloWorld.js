@@ -81,23 +81,32 @@ var qAndA = React.createClass({
         this.loadQuestions();
     },
     addQuestion: function() {
-        alert('A new question: '+this.state.newQ);
+        var question = encodeURIComponent(this.state.newQ);
+        var params = 'newQ='+question;
         this.setState({
             newQ: ''
         });
         if (newQHttp.readyState == 0 || newQHttp.readyState == 4) {
             newQHttp.open("POST", "serverAccess.php", true);
-            newQHttp.setRequestHeader('Content-type', 'application/json');
+            newQHttp.setRequestHeader('Content-length', params.length);
+            newQHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            newQHttp.setRequestHeader('Connection', 'close');
             newQHttp.onreadystatechange = function() {
                 if (newQHttp.readyState == 4 && newQHttp.status == 200) {
-                    alert(newQHttp.responseText);
+                    if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
+                        xmlHttp.open("POST", "serverAccess.php", true);
+                        xmlHttp.onreadystatechange = function(){
+                            resultData = JSON.parse(xmlHttp.responseText);
+                            this.setState({ allQs:resultData});
+                        }.bind(this);
+                        xmlHttp.send(null);
+                    }
                 } else if (newQHttp.readyState == 4 && newQHttp.status != 200) {
                     alert('There was an error contacting the server');
                 }
                 this.loadQuestions;
-            };
-            var question = encodeURIComponent(this.state.newQ);
-            newQHttp.send("newQ="+question);
+            }.bind(this);
+            newQHttp.send(params);
         }
     },
     handleNewQ: function(event){
@@ -106,18 +115,29 @@ var qAndA = React.createClass({
         });
     },
     selectQ: function(key){
-        alert('Selected question: '+this.state.allQs[key].qText);
+        //alert('Selected question: '+this.state.allQs[key].qText);
+        var question = encodeURIComponent(this.state.allQs[key].qText);
+        var params = 'answersForQuestion='+question;
         if (selectQHttp.readyState == 0 || selectQHttp.readyState == 4) {
             selectQHttp.open("POST", "serverAccess.php", true);
+            selectQHttp.setRequestHeader('Content-length', params.length);
+            selectQHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            selectQHttp.setRequestHeader('Connection', 'close');
             selectQHttp.onreadystatechange = function() {
                 if (selectQHttp.readyState == 4 && selectQHttp.status == 200) {
-                    alert(selectQHttp.responseText);
+                    var tempAnswers = JSON.parse(selectQHttp.responseText);
+                    if (tempAnswers == '') {
+                        var noAnswers = [{"id":"a0", "aText":"There are no answers to this question posted yet."}]
+                        this.setState({ allAs: noAnswers});
+                    } else {
+                        this.setState({ allAs: tempAnswers });
+                    }
                 } else if (selectQHttp.readyState == 4 && selectQHttp.status != 200) {
                     alert('There was an error retrieving the answers');
                 }
-            };
+            }.bind(this);
             var question = encodeURIComponent(this.state.allQs[key].qText);
-            selectQHttp.send('answersForQuestion='+question);
+            selectQHttp.send(params);
         }
     },
     render: function() {
