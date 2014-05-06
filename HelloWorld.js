@@ -10,43 +10,11 @@ function createXMLHttpRequest() {
     return xmlHttp;
 }
 
-var otherData = [
-    {"id":"thing1", "qText":"This will be a question."},
-    {"id":"thing2", "qText":"This will be another question."},
-    {"id":"thing3", "qText":"This will be the third thing."}
-];
-
-var q1Answers = [
-    {"id":"answer1", "aText":"This is the first answer to question 1."},
-    {"id":"answer2", "aText":"This is the second answer to question 1."}
-];
-
-var q2Answers = [
-    {"id":"answer1", "aText":"This is the first answer to question 2."},
-    {"id":"answer2", "aText":"This is the second answer to question 2."}
-];
-
-
 var resultData;
-var unparsed;
-
-/*function pageLoaded() {
-    if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
-        xmlHttp.open('POST', 'serverAccess.php', true);
-        xmlHttp.onreadystatechange = handleServerResponse;
-        xmlHttp.send(null);
-    }
-}
-
-function handleServerResponse() {
-    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-        unparsed = xmlHttp.responseText;
-        otherData = unparsed;
-        resultData = JSON.parse(xmlHttp.responseText);
-    }
-}*/
 
 var xmlHttp = createXMLHttpRequest();
+var newQHttp = createXMLHttpRequest();
+var selectQHttp= createXMLHttpRequest();
 
 var answers = React.createClass({
     clickHandler:function(a) {
@@ -68,7 +36,6 @@ var answers = React.createClass({
 
 var questions = React.createClass({
     handleQuestionSelect: function(key) {
-        alert('Question '+ key +' was selected.');
         this.props.onSelectQ(key);
     },
     render: function () {
@@ -94,10 +61,9 @@ var qAndA = React.createClass({
         }
     },
     loadQuestions: function() {
-        alert('Questions loading');
         if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
             xmlHttp.open("POST", "serverAccess.php", true);
-            xmlHttp.onreadystatechange = function(allQs) {
+            xmlHttp.onreadystatechange = function() {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                     resultData = JSON.parse(xmlHttp.responseText);
                     this.setState({ allQs: resultData });
@@ -115,32 +81,50 @@ var qAndA = React.createClass({
         this.loadQuestions();
     },
     addQuestion: function() {
-        alert('A new question.'+this.state.newQ);
-        if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
-            xmlHttp.open("POST", "serverAccess.php", true);
-            xmlHttp.setRequestHeader('Content-type', 'application/json');
-            xmlHttp.onreadystatechange = function() {
-                if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                    alert(xmlHttp.responseText);
+        alert('A new question: '+this.state.newQ);
+        this.setState({
+            newQ: ''
+        });
+        if (newQHttp.readyState == 0 || newQHttp.readyState == 4) {
+            newQHttp.open("POST", "serverAccess.php", true);
+            newQHttp.setRequestHeader('Content-type', 'application/json');
+            newQHttp.onreadystatechange = function() {
+                if (newQHttp.readyState == 4 && newQHttp.status == 200) {
+                    alert(newQHttp.responseText);
+                } else if (newQHttp.readyState == 4 && newQHttp.status != 200) {
+                    alert('There was an error contacting the server');
                 }
                 this.loadQuestions;
             };
-            xmlHttp.send("newQ=test");
+            var question = encodeURIComponent(this.state.newQ);
+            newQHttp.send("newQ="+question);
         }
-    },
-    updateInfo:function(){
-        
     },
     handleNewQ: function(event){
         this.setState({
             newQ: event.target.value
         });
     },
+    selectQ: function(key){
+        alert('Selected question: '+this.state.allQs[key].qText);
+        if (selectQHttp.readyState == 0 || selectQHttp.readyState == 4) {
+            selectQHttp.open("POST", "serverAccess.php", true);
+            selectQHttp.onreadystatechange = function() {
+                if (selectQHttp.readyState == 4 && selectQHttp.status == 200) {
+                    alert(selectQHttp.responseText);
+                } else if (selectQHttp.readyState == 4 && selectQHttp.status != 200) {
+                    alert('There was an error retrieving the answers');
+                }
+            };
+            var question = encodeURIComponent(this.state.allQs[key].qText);
+            selectQHttp.send('answersForQuestion='+question);
+        }
+    },
     render: function() {
         return(
             <div>
-                <questions data={this.state.allQs} />
-                <textarea placeholder="Enter a new question here..." ref="neqQuest" className="qInput" onChange={this.handleNewQ}>{this.state.newQ}</textarea>
+                <questions data={this.state.allQs} onSelectQ={this.selectQ}/>
+                <textarea placeholder="Enter a new question here..." ref="neqQuest" className="qInput" onChange={this.handleNewQ} value={this.state.newQ}></textarea>
                 <button onClick={this.addQuestion} className="qButton">Add Question</button>
                 <answers data={this.state.allAs} />
             </div>

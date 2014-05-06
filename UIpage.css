@@ -27,8 +27,11 @@ h1 {
 }
 
 .qInput {
-    width: 400px;
+    width: 394px;
     height:100px;
+    margin-left:3px;
+    margin-right: 3px;
+    vertical-align: top;
 }
 
 .qButton {
