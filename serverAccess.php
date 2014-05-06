@@ -1,8 +1,9 @@
 <?php
 $connection = mysql_connect("192.186.227.166", "ideas", "@Greellow8") or die(mysql_error());
 mysql_select_db('FrontRowTest', $connection) or die(mysql_error());
-if (isset($_POST['newQuestion'])) {
-    $qText = $_POST['newQuestion'];
+if (isset($_POST['newQ'])) {
+    header('Content-Type: application/json');
+    $qText = $_POST['newQ'];
     $query = "INSERT INTO FAQ (quest_text) VALUES ('"+$qText+"')";
     if (! $result = mysql_query($query, $connection)) {
         die('There was an error instering the new question.');

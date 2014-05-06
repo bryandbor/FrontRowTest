@@ -58,22 +58,9 @@ var answers = React.createClass({
             <div>
                 {this.props.data.map(function(answer, i){
                     return(
-                        <div onClick={this.clickHandler.bind(this, i)} key={aCounter++}>{answer.aText}</div>
+                        <div onClick={this.clickHandler.bind(this, i)} key={aCounter++} className="answer">{answer.aText}</div>
                     );
                 }, this)}
-            </div>
-        );
-    }
-});
-
-var answer = React.createClass({
-    clickHandler: function() {
-        this.props.onClick(this.props.key);
-    },
-    render: function(){
-        return(
-            <div class="answers" onClick={this.clickHandler}>
-                {this.props.aText}
             </div>
         );
     }
@@ -90,7 +77,7 @@ var questions = React.createClass({
             <div>
             {this.props.data.map(function(question, i) {
                 return(
-                    <div onClick={this.handleQuestionSelect.bind(this, i)} key={qCounter++}>{question.qText}</div>
+                    <div onClick={this.handleQuestionSelect.bind(this, i)} key={qCounter++} className="question">{question.qText}</div>
                 );
             }, this)}
             </div>
@@ -101,13 +88,15 @@ var questions = React.createClass({
 var qAndA = React.createClass({
     getInitialState: function() {
         return{
+            newQ: '',
             allQs:[{"id":"q2", "qText":"The questions are loading..."}],
             allAs:[{"id":"a1", "aText":"Select a question to view its answers."}]
         }
     },
     loadQuestions: function() {
+        alert('Questions loading');
         if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
-            xmlHttp.open("POST", "http://www.ideasbyb.com/FrontRowTest/serverAccess.php", true);
+            xmlHttp.open("POST", "serverAccess.php", true);
             xmlHttp.onreadystatechange = function(allQs) {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                     resultData = JSON.parse(xmlHttp.responseText);
@@ -126,26 +115,33 @@ var qAndA = React.createClass({
         this.loadQuestions();
     },
     addQuestion: function() {
-        alert('Hello');
-        /*if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
-            xmlHttp.open("POST", "ideasbyb.com/FrontRowTest/serverAccess.php", true);
+        alert('A new question.'+this.state.newQ);
+        if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
+            xmlHttp.open("POST", "serverAccess.php", true);
+            xmlHttp.setRequestHeader('Content-type', 'application/json');
             xmlHttp.onreadystatechange = function() {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                     alert(xmlHttp.responseText);
                 }
+                this.loadQuestions;
             };
-            xmlHttp.send("newQuestion="+this.refs.newQuest.getDOMNode().value);
-        }*/
+            xmlHttp.send("newQ=test");
+        }
     },
     updateInfo:function(){
         
+    },
+    handleNewQ: function(event){
+        this.setState({
+            newQ: event.target.value
+        });
     },
     render: function() {
         return(
             <div>
                 <questions data={this.state.allQs} />
-                <textarea placeholder="Enter a new question here..." ref="neqQuest"></textarea>
-                <button onClick={this.addQuestion}>Add Question</button>
+                <textarea placeholder="Enter a new question here..." ref="neqQuest" className="qInput" onChange={this.handleNewQ}>{this.state.newQ}</textarea>
+                <button onClick={this.addQuestion} className="qButton">Add Question</button>
                 <answers data={this.state.allAs} />
             </div>
         );
@@ -153,6 +149,6 @@ var qAndA = React.createClass({
 });
         
 React.renderComponent(
-    <qAndA />,
+    <qAndA className=""/>,
     document.getElementById('questionArea')
 );

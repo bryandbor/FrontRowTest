@@ -1,14 +1,41 @@
-#replyArea {
-    background-color: #888;
+#questionArea {
 	border:1px solid black;
-	width:300px;
+	width:500px;
 }
 
 h1 {
-    color: #8F3;
     background-color: #2F3;
 }
 
-.answers {
-    background-color: #44F;   
+#title {
+    width: 500px;
+    text-align: center;
+}
+
+.answer {
+    background-color: #4F4;
+    border:1px solid black;
+    padding:2px;
+    margin:3px;
+}
+
+.question {
+    background-color: #DFF;
+    border: 1px solid black;
+    margin: 3px;
+    padding:2px;
+}
+
+.qInput {
+    width: 400px;
+    height:100px;
+}
+
+.qButton {
+    height: 100px;
+    vertical-align: top;
+}
+
+.selectedQuestion {
+    background-color: #4BF;   
 }
