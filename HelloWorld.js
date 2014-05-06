@@ -54,12 +54,13 @@ var answers = React.createClass({
     },
     render: function() {
         var aCounter = 0;
-        var thisData = this.props.data.map(function (a){
-            return (<answer onClick={this.clickHandler} aText={a.aText} key={aCounter++}/> );
-        });
         return (
             <div>
-                {thisData}
+                {this.props.data.map(function(answer, i){
+                    return(
+                        <div onClick={this.clickHandler.bind(this, i)} key={aCounter++}>{answer.aText}</div>
+                    );
+                }, this)}
             </div>
         );
     }
@@ -106,16 +107,13 @@ var qAndA = React.createClass({
     },
     loadQuestions: function() {
         if (xmlHttp.readyState == 0 || xmlHttp.readyState == 4) {
-            xmlHttp.open("POST", "serverAccess.php", true);
+            xmlHttp.open("POST", "http://www.ideasbyb.com/FrontRowTest/serverAccess.php", true);
             xmlHttp.onreadystatechange = function(allQs) {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                     resultData = JSON.parse(xmlHttp.responseText);
                     this.setState({ allQs: resultData });
-                    /*for (var obj in this.state.allQs) {
-                        alert('allQs: '+resultData[obj].qText);
-                    }*/
                 } else if (xmlHttp.readyState == 4 && xmlHttp.status != 200) {
-                    alert('Error retrieving the questions.');
+                    alert('Error retrieving the questions. Error code: '+xmlHttp.status);
                 }
             }.bind(this);
             xmlHttp.send(null);
