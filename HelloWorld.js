@@ -42,11 +42,6 @@ var answers = React.createClass({
 });
 
 var questions = React.createClass({
-    getInitialState: function() {
-        return {
-            className: 'question'
-        };
-    },
     handleQuestionSelect: function(key) {
         this.props.onSelectQ(key);
     },
@@ -63,7 +58,7 @@ var questions = React.createClass({
                     <button 
                         onClick={this.handleQuestionSelect.bind(this, i)} 
                         key={qCounter++} 
-                        className={this.state.className}
+                        className={classN}
                         onMouseOver={this.props.onMouseOver}
                         onMouseOut={this.props.onMouseOut}>
                             {question.qText}
