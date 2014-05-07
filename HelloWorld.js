@@ -42,6 +42,11 @@ var answers = React.createClass({
 });
 
 var questions = React.createClass({
+    getInitialState: function() {
+        return {
+            className: 'question'
+        };
+    },
     handleQuestionSelect: function(key) {
         this.props.onSelectQ(key);
     },
@@ -55,14 +60,14 @@ var questions = React.createClass({
                     classN='selectedQuestion';
                 }
                 return(
-                    <div 
+                    <button 
                         onClick={this.handleQuestionSelect.bind(this, i)} 
                         key={qCounter++} 
-                        className={classN}
+                        className={this.state.className}
                         onMouseOver={this.props.onMouseOver}
                         onMouseOut={this.props.onMouseOut}>
                             {question.qText}
-                    </div>
+                    </button>
                 );
             }, this)}
             </div>
@@ -80,7 +85,8 @@ var qAndA = React.createClass({
             questionInfo: false,
             answerInfo:false,
             info:true,
-            infoText: ''
+            infoText: '',
+            buttonState: 'disabled'
         }
     },
     loadQuestions: function() {
@@ -136,6 +142,17 @@ var qAndA = React.createClass({
             newQ: event.target.value
         });
     },
+    changeButton: function() {
+        if (this.state.newQ != '') {
+            this.setState({
+                buttonState: ''
+            });
+        } else {
+            this.setState({
+                buttonState: 'disabled'
+            });
+        }
+    },
     selectQ: function(key){
         this.setState({
             selectedQuestion: key
@@ -170,11 +187,13 @@ var qAndA = React.createClass({
         });
     },
     aHover: function(){
-        this.setState({
-            infoText: 'These are the answers to the selected question.',
-            info: false,
-            answerInfo: true
-        });
+        if (this.state.selectedQuestion != -1) {
+            this.setState({
+                infoText: 'These are the answers to the selected question.',
+                info: false,
+                answerInfo: true
+            });
+        }
     },
     mouseAway: function() {
         this.setState({
@@ -207,18 +226,22 @@ var qAndA = React.createClass({
                     onMouseOver={this.qHover}
                     onMouseOut={this.mouseAway}
                 />
-                <textarea 
-                    placeholder="Enter a new question here..." 
-                    ref="neqQuest" 
-                    className="qInput" 
-                    onChange={this.handleNewQ} 
-                    value={this.state.newQ}>
-                </textarea>
-                <button 
-                    onClick={this.addQuestion} 
-                    className="qButton">
-                        Add Question
-                </button>
+                <div className="newQuestionArea">
+                    <textarea 
+                        placeholder="Enter a new question here..." 
+                        ref="neqQuest" 
+                        className="qInput" 
+                        onChange={this.handleNewQ} 
+                        onKeyUp={this.changeButton}
+                        value={this.state.newQ}>
+                    </textarea>
+                    <button 
+                        onClick={this.addQuestion} 
+                        className="qButton"
+                        disabled={this.state.buttonState}>
+                            Add Question
+                    </button>
+                </div>
                 <p 
                     className="smallTitles" 
                     onMouseOver={this.aHover}
