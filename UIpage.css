@@ -41,14 +41,14 @@ hr {
 }
 
 .answer {
-    background-color: #4F4;
-    border:1px solid black;
+    background-color: #CFF;
     padding: 2px;
     margin-top:3px;
     margin-bottom: 3px;
     margin-left: 1%;
     margin-right: 1%;
     font-size: 15px;
+    text-align: center;
 }
 
 .question {
@@ -59,6 +59,8 @@ hr {
     padding:2px;
     width: 98%;
     font-size: 15px;
+    border: 0px;
+    background-color: white;
 }
 
 .question:hover {
@@ -66,13 +68,10 @@ hr {
 }
 
 .newQuestionArea {
-    border:1px solid black;
-    border-bottom: 1px solid black;
     padding-bottom: 5px;
     padding-top: 5px;
     margin-top:5px;
     background-color: white;
-    box-shadow: 2px 2px 1px;
 }
 
 .qInput {
@@ -92,7 +91,7 @@ hr {
 }
 
 .selectedQuestion {
-    background-color: #4BF;
+    background-color: #CFF;
     padding: 2px;
     margin-top: 1px;
     margin-bottom: 1px;
@@ -100,6 +99,7 @@ hr {
     margin-right: 1%;
     width: 98%;
     font-size: 15px;
+    border: 0px;
 }
 
 .smallTitles {
@@ -108,7 +108,6 @@ hr {
     margin-bottom: 0px;
     text-align: center;
     text-decoration: underline;
-    text-shadow: 2px 1px #888888;
 }
 
 .info {

@@ -17,9 +17,6 @@ var newQHttp = createXMLHttpRequest();
 var selectQHttp= createXMLHttpRequest();
 
 var answers = React.createClass({
-    clickHandler:function(a) {
-        
-    },
     render: function() {
         var aCounter = 0;
         return (
@@ -27,7 +24,6 @@ var answers = React.createClass({
                 {this.props.data.map(function(answer, i){
                     return(
                         <div 
-                            onClick={this.clickHandler.bind(this, i)} 
                             key={aCounter++} 
                             className="answer"
                             onMouseOver={this.props.onMouseOver}

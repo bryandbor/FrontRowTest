@@ -4,7 +4,7 @@ mysql_select_db('FrontRowTest', $connection) or die(mysql_error());
 if (isset($_POST['newQ'])) {
     header('Content-Type: application/json');
     $qText = $_POST['newQ'];
-    $query = "INSERT INTO FAQ (quest_text) VALUES ('".$qText."')";
+    $query = "INSERT INTO FAQ (quest_text) VALUES ('".mysql_real_escape_string($qText)."')";
     if (! $result = mysql_query($query, $connection)) {
         die('There was an error instering the new question.');
     } else {
@@ -12,7 +12,7 @@ if (isset($_POST['newQ'])) {
     }
 } else if (isset($_POST['answersForQuestion'])) {
     $answersForQuestion = $_POST['answersForQuestion'];
-    $query = "SELECT * FROM Answers WHERE quest_num = (SELECT quest_num FROM FAQ WHERE quest_text = '".$answersForQuestion."')";
+    $query = "SELECT * FROM Answers WHERE quest_num = (SELECT quest_num FROM FAQ WHERE quest_text = '".mysql_real_escape_string($answersForQuestion)."')";
     if(! $result = mysql_query($query, $connection)) {
         die('There was an error retrieving answers for that question');
     } else {
