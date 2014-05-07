@@ -1,9 +1,11 @@
 #questionArea {
-    top:100px;
+    top:60px;
 	border:1px solid black;
 	width:500px;
     position: absolute;
     left: 25%;
+    font-family: sans-serif;
+    margin-bottom: 50px;
 }
 
 h1 {
@@ -11,20 +13,31 @@ h1 {
 }
 
 #link {
+    border-top: 1px solid black;
     position:fixed;
-    bottom: 20px;
+    bottom: 0px;
     right: 20px;
+    font-family: sans-serif;
+    width:100%;
+    text-align: right;
+    height:40px;
+    background-color: white;
 }
 
 #top {
+    width: 503px;
+    margin-top: -8px;
     position:fixed;
     left:25%;
+    background-color: white;
+    z-index: 5;
 }
 
 #title {
-    width: 500px;
     text-align: center;
+    margin-top: 0px;
     margin-bottom: 2px;
+    font-family: sans-serif;
 }
 
 .answer {
@@ -62,8 +75,8 @@ h1 {
 }
 
 .smallTitles {
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin-top: 3px;
+    margin-bottom: 0px;
     text-align: center;
     text-decoration: underline;
     font-weight: bold;
