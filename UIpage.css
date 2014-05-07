@@ -4,12 +4,13 @@
 }
 
 h1 {
-    background-color: #2F3;
+    
 }
 
 #title {
     width: 500px;
     text-align: center;
+    margin-bottom: 2px;
 }
 
 .answer {
@@ -40,5 +41,8 @@ h1 {
 }
 
 .selectedQuestion {
-    background-color: #4BF;   
+    background-color: #4BF;
+    border: 1px solid black;
+    padding: 2px;
+    margin: 3px;
 }
