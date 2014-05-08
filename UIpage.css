@@ -1,143 +1,31 @@
 #questionArea {
-    top:70px;
-    min-width: 400px;
-	width:60%;
-    position: absolute;
-    left: 20%;
+    margin-bottom: 80px;
     font-family: sans-serif;
-    margin-bottom: 50px;
+    z-index: 1;
 }
 
-hr {
-    margin-top:2px;
-}
-
-#link {
-    border-top: 1px solid black;
-    position:fixed;
-    bottom: 0px;
-    right: 20px;
-    font-family: sans-serif;
-    width:100%;
-    text-align: right;
-    height:40px;
-    background-color: white;
-    margin-right: -20px;
-}
-
-#top {
-    width: 100%
-    position:fixed;
-    background-color: white;
-    z-index: 5;
-}
-
-#title {
-    text-align: center;
-    margin-top: 0px;
-    margin-bottom: 2px;
-    font-family: sans-serif;
-}
-
-.answer {
-    background-color: #CFF;
-    padding: 2px;
-    margin-top:3px;
-    margin-bottom: 3px;
-    margin-left: 1%;
-    margin-right: 1%;
-    font-size: 15px;
-    text-align: center;
-}
-
-.question {
+.separateQuestions {
     margin-top: 1px;
     margin-bottom: 1px;
-    margin-left: 1%;
-    margin-right: 1%;
-    padding:2px;
-    width: 98%;
-    font-size: 15px;
-    border: 0px;
-    background-color: white;
-}
-
-.question:hover {
-    text-decoration: underline;
-}
-
-.newQuestionArea {
-    padding-bottom: 5px;
-    padding-top: 5px;
-    margin-top:5px;
-    background-color: white;
 }
 
 .qInput {
-    margin-top: 1px;
-    width: 77%;
-    height:100px;
-    margin-left:1%;
-    margin-right: 1%;
-    vertical-align: top;
+    width: 100%;
 }
 
 .qButton {
-    margin-top: 1px;
-    height: 100px;
-    width: 20%;
-    vertical-align: top;
+    width:100%;
 }
 
-.selectedQuestion {
-    background-color: #CFF;
-    padding: 2px;
-    margin-top: 1px;
-    margin-bottom: 1px;
-    margin-left: 1%;
-    margin-right: 1%;
-    width: 98%;
-    font-size: 15px;
-    border: 0px;
+.newQuestion {
+    margin-top: 15px;
 }
 
-.smallTitles {
-    font-size: 130%;
-    margin-top: 3px;
-    margin-bottom: 0px;
-    text-align: center;
-    text-decoration: underline;
+.answer {
+    margin-bottom:15px;
 }
 
-.info {
-    display: none;
-}
-
-.questionInfo {
-    display: inline;
-    background-color: #FFD;
-    position:absolute;
-    left:-30%;
-    top:40px;
-    width:25%;
-    text-align: center;
-    border: 1px solid black;
-    box-shadow: 5px 5px 2px #888888;
-}
-
-.answerInfo {
-    display: inline;
-    background-color: #FFD;
-    position: absolute;
-    left:-30%;
-    width: 25%;
-    bottom: 20px;
-    border: 1px solid black;
-    box-shadow: 5px 5px 2px #888888;
-    text-align: center;
-}
-
-#testingArea {
-    position:absolute;
-    top:300px;
+.question {
+    padding-left: 15px;
+    display:inline-block;
 }

@@ -23,12 +23,16 @@ var answers = React.createClass({
             <div>
                 {this.props.data.map(function(answer, i){
                     return(
-                        <div 
-                            key={aCounter++} 
-                            className="answer"
-                            onMouseOver={this.props.onMouseOver}
-                            onMouseOut={this.props.onMouseOut}>
-                                {answer.aText}
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div 
+                                    key={aCounter++} 
+                                    className="answer"
+                                    onMouseOver={this.props.onMouseOver}
+                                    onMouseOut={this.props.onMouseOut}>
+                                        {answer.aText}
+                                </div>
+                            </div>
                         </div>
                     );
                 }, this)}
@@ -45,22 +49,33 @@ var questions = React.createClass({
         var qCounter = 0;
         return (
             <div>
-            {this.props.data.map(function(question, i) {
-                var classN="question"
-                if (qCounter == this.props.selectedQuestion) {
-                    classN='selectedQuestion';
-                }
-                return(
-                    <button 
-                        onClick={this.handleQuestionSelect.bind(this, i)} 
-                        key={qCounter++} 
-                        className={classN}
-                        onMouseOver={this.props.onMouseOver}
-                        onMouseOut={this.props.onMouseOut}>
-                            {question.qText}
-                    </button>
-                );
-            }, this)}
+                {this.props.data.map(function(question, i) {
+                    var classN="question"
+                    var buttonC="btn btn-default"
+                    if (qCounter == this.props.selectedQuestion) {
+                        buttonC="btn btn-info"
+                    }
+                    return(
+                        <div className="row separateQuestions">
+                            <div className="col-sm-1 col-md-1">
+                                <button 
+                                    onClick={this.handleQuestionSelect.bind(this, i)} 
+                                    key={qCounter++} 
+                                    className={buttonC}>
+                                        ASK
+                                </button>
+                            </div>
+                            <div className="col-sm-11 col-md-11">
+                                <span 
+                                    className={classN}
+                                    onMouseOver={this.props.onMouseOver}
+                                    onMouseOut={this.props.onMouseOut}>
+                                        {question.qText}
+                                </span>
+                            </div>
+                        </div>
+                    );
+                }, this)}
             </div>
         );
     }
@@ -170,29 +185,6 @@ var qAndA = React.createClass({
             selectQHttp.send(params);
         }
     },
-    qHover: function(){
-        this.setState({
-            infoText: 'Click on a question to view its answers.',
-            info: false,
-            questionInfo: true
-        });
-    },
-    aHover: function(){
-        if (this.state.selectedQuestion != -1) {
-            this.setState({
-                infoText: 'These are the answers to the selected question.',
-                info: false,
-                answerInfo: true
-            });
-        }
-    },
-    mouseAway: function() {
-        this.setState({
-            info:true,
-            questionInfo:false,
-            answerInfo:false
-        });
-    },
     render: function() {
         var classString = '';
         if (this.state.info) {
@@ -204,51 +196,53 @@ var qAndA = React.createClass({
         }
         return(
             <div>
-                <p 
-                    className="smallTitles" 
-                    onMouseOver={this.qHover}
-                    onMouseOut={this.mouseAway}>
-                        Questions
-                </p>
-                <questions 
-                    data={this.state.allQs} 
-                    onSelectQ={this.selectQ} 
-                    selectedQuestion={this.state.selectedQuestion}
-                    onMouseOver={this.qHover}
-                    onMouseOut={this.mouseAway}
-                />
-                <div className="newQuestionArea">
-                    <textarea 
-                        placeholder="Enter a new question here..." 
-                        ref="neqQuest" 
-                        className="qInput" 
-                        onChange={this.handleNewQ} 
-                        onKeyUp={this.changeButton}
-                        value={this.state.newQ}>
-                    </textarea>
-                    <button 
-                        onClick={this.addQuestion} 
-                        className="qButton"
-                        disabled={this.state.buttonState}>
-                            Add Question
-                    </button>
+                <div className="row">
+                    <div className="col-sm-8 col-md-8">
+                        <h3 
+                            onMouseOver={this.qHover}
+                            onMouseOut={this.mouseAway}>
+                                Questions
+                        </h3>
+                        <questions 
+                            data={this.state.allQs} 
+                            onSelectQ={this.selectQ} 
+                            selectedQuestion={this.state.selectedQuestion}
+                            onMouseOver={this.qHover}
+                            onMouseOut={this.mouseAway}
+                        />
+                    </div>
+                    <div className="col-sm-4">
+                        <h3
+                            onMouseOver={this.aHover}
+                            onMouseOut={this.mouseAway}>
+                                Answers
+                        </h3>
+                        <answers
+                            data={this.state.allAs}
+                            onMouseOver={this.aHover}
+                            onMouseOut={this.mouseAway}
+                        />
+                    </div>
                 </div>
-                <p 
-                    className="smallTitles" 
-                    onMouseOver={this.aHover}
-                    onMouseOut={this.mouseAway}>
-                        Answers
-                </p>
-                <answers 
-                    data={this.state.allAs} 
-                    onMouseOver={this.aHover}
-                    onMouseOut={this.mouseAway}
-                />
-                <div 
-                    className={classString}>
-                        <span ref="infoString">
-                                {this.state.infoText}
-                        </span>
+                <div className="row newQuestion">
+                    <div className="col-md-10 col-sm-9">
+                        <textarea 
+                            placeholder="Enter a new question here..." 
+                            ref="neqQuest" 
+                            className="qInput" 
+                            onChange={this.handleNewQ} 
+                            onKeyUp={this.changeButton}
+                            value={this.state.newQ}>
+                        </textarea>
+                    </div>
+                    <div className="col-md-2 col-sm-3">
+                        <button 
+                            onClick={this.addQuestion} 
+                            className="btn-lg btn-success pull-right"
+                            disabled={this.state.buttonState}>
+                                Add Question
+                        </button>
+                    </div>
                 </div>
             </div>
         );
@@ -256,6 +250,6 @@ var qAndA = React.createClass({
 });
         
 React.renderComponent(
-    <qAndA className="bigPicture"/>,
+    <qAndA />,
     document.getElementById('questionArea')
 );
