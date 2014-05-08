@@ -1,6 +1,9 @@
+<!DOCTYPE HTML>
 <html>
     <head>
         <title>FAQ Web App</title>
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
         <script src="build/react.js"></script>
         <script src="build/JSXTransformer.js"></script>
         <script type="text/jsx" src="HelloWorld.js"></script>
@@ -9,13 +12,42 @@
     </head>
     
     <body>
-        <div id="top">
-            <h1 id="title">Frequently Asked Questions</h1>
-            <hr>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="js/bootstrap.js"></script>
+        
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <a href="#" class="navbar-brand">Frequently Asked Questions</a>
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse navHeaderCollapse">
+                    <ul class = "nav navbar-nav navbar-right">
+                        <li><a href="http://www.ideasbyb.com">Home</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="mygala.ideasbyb.com">MyGala</a></li>
+                                <li class="active"><a href="frontrowtest.ideasbyb.com">Front Row</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="http://www.ideasbyb.com/resume.php">Resume</a></li>
+                        <li><a href="http://www.ideasbyb.com/contactme.php">Contact Me</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div id="questionArea"></div>
-        <br/><br/>
+        <div id="testingArea"></div>
         <a href="http://www.ideasbyb.com/FrontRowTest/serverAccess.php" id="link">Link to the Data</a>
+        <div class="navbar navbar-inverse navbar-fixed-bottom">
+            <div class="container">
+                <p class="navbar-text pull-left">Site and App Built By Bryan Bor</p>
+                <a href="http://www.ideasbyb.com/FrontRowTest/serverAccess.php" class="navbar-btn btn btn-danger pull-right">Link to the Data</a>
+            </div>
+        </div>
     </body>
     
 </html>

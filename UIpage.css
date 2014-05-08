@@ -26,8 +26,7 @@ hr {
 }
 
 #top {
-    width: 100%;
-    margin-top: -8px;
+    width: 100%
     position:fixed;
     background-color: white;
     z-index: 5;
@@ -136,4 +135,9 @@ hr {
     border: 1px solid black;
     box-shadow: 5px 5px 2px #888888;
     text-align: center;
+}
+
+#testingArea {
+    position:absolute;
+    top:300px;
 }
